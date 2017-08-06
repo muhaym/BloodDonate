@@ -36,7 +36,7 @@ namespace BloodDonate.Services
             var result = new Result<List<Donors>>();
             try
             {
-                var donors = await MobileService.GetTable<Donors>().Where(x => x.Group.Equals(bloodgroup)).ToListAsync();
+                var donors = await MobileService.GetTable<Donors>().Where(x => x.Group == bloodgroup).ToListAsync();
                 //Do Not Use the following practice in Real Life Apps.
                 var coord = new GeoCoordinate(latitude, longitude);
                 var nearest = donors.Select(x => new GeoCoordinate(latitude, longitude))
@@ -46,6 +46,7 @@ namespace BloodDonate.Services
                             where dist < range
                             select l;
                 var y = query.ToList();
+
                 result.data = y;
                 result.Status = 100;
                 result.Message = "Successfully Retrieved Donors";
